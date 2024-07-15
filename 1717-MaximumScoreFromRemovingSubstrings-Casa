@@ -1,0 +1,50 @@
+int maximumGain(char* s, int x, int y) {
+    char* remove1;
+    char* remove2;
+    char stack[100001];
+    char stack2[100001];
+    stack[0] = s[0];
+    int points = 0, top = 0, higher, lower;
+
+    if (x > y) {
+        remove1 = "ab";
+        remove2 = "ba";
+        higher = x;
+        lower = y;
+    } else {
+        remove1 = "ba";
+        remove2 = "ab";
+        higher = y;
+        lower = x;
+    }
+
+    int i = 0;
+    int size = strlen(s);
+
+    while (i < size) {
+        if (top && stack[top] == remove1[0] && s[i] == remove1[1]) {
+            top--;
+            points += higher;
+        } else{
+            stack[++top] = s[i];
+        }
+        i++;
+    }
+
+    stack2[0] = stack[0];
+    int size2 = top;
+    top = 0;
+    i = 1;
+
+    while (i < size2 + 1) {
+        if (top && stack2[top] == remove2[0] && stack[i] == remove2[1]) {
+            top--;
+            points += lower;
+        } else {
+            stack2[++top] = stack[i];
+        }
+        i++;
+    }
+
+    return points;
+}
